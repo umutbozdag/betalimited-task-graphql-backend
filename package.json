@@ -2,7 +2,7 @@
   "scripts": {
     "start": "node public/server.js",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node ./src/server.ts",
+    "dev": "nodemon --exec ts-node ./server.ts",
     "generate": "graphql-codegen",
     "postinstall": "npm run build"
   },
