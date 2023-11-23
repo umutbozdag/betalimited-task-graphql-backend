@@ -5,11 +5,16 @@ import resolvers from "./graphql/resolvers";
 import { RestAPI } from "./datasources/api";
 
 async function startApolloServer() {
+  // @ts-ignore
+  const port = Number.parseInt(process.env.PORT) || 4000;
   const server = new ApolloServer({
     typeDefs,
     resolvers,
   });
   const { url } = await startStandaloneServer(server, {
+    listen: {
+      port,
+    },
     context: async ({ req }) => {
       const { cache } = server;
       return {

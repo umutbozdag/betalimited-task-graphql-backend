@@ -9,6 +9,7 @@
     "@cloudflare/workers-types": "^4.20231121.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "dotenv": "^16.3.1",
     "nodemon": "^3.0.1"
   },
   "dependencies": {
