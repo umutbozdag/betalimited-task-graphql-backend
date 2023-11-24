@@ -1,4 +1,4 @@
-import { Resolvers, CartItem } from "../types";
+import { Resolvers, CartItem } from "../__generated__/types";
 
 const resolvers: Resolvers = {
   Query: {
@@ -44,6 +44,23 @@ const resolvers: Resolvers = {
       );
 
       return addToCartResponse;
+    },
+    subtractFromCart: async (
+      _,
+      { productId }: Pick<CartItem, "productId">,
+      { dataSources, request }
+    ) => {
+      const sessionId = request?.headers["session-id"] || null;
+
+      if (!sessionId) {
+        throw new Error("Session ID not provided");
+      }
+      const subtractFromCartResponse = await dataSources.restAPI.addToCart(
+        productId,
+        sessionId
+      );
+
+      return subtractFromCartResponse;
     },
   },
 };

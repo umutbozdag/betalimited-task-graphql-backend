@@ -30,6 +30,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    addToCart(productId: ID!): Boolean
+    addToCart(productId: ID!): Boolean!
+    subtractFromCart(productId: ID!): Boolean!
   }
 `;

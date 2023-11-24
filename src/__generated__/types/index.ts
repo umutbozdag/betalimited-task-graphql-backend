@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { DataSourceContext } from '../graphql/context';
+import { DataSourceContext } from '../../graphql/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -27,11 +27,17 @@ export type CartItem = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addToCart?: Maybe<Scalars['Boolean']['output']>;
+  addToCart: Scalars['Boolean']['output'];
+  subtractFromCart: Scalars['Boolean']['output'];
 };
 
 
 export type MutationAddToCartArgs = {
+  productId: Scalars['ID']['input'];
+};
+
+
+export type MutationSubtractFromCartArgs = {
   productId: Scalars['ID']['input'];
 };
 
@@ -170,7 +176,8 @@ export type CartItemResolvers<ContextType = DataSourceContext, ParentType extend
 };
 
 export type MutationResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addToCart?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>;
+  addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>;
+  subtractFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubtractFromCartArgs, 'productId'>>;
 };
 
 export type ProductItemResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['ProductItem'] = ResolversParentTypes['ProductItem']> = {

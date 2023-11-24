@@ -1,7 +1,6 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 import fetch from "node-fetch";
-import { CartItem, ProductItem, Session } from "../types";
-import { HTTPCache } from "@apollo/datasource-rest/dist/HTTPCache";
+import { CartItem, ProductItem, Session } from "../__generated__/types";
 
 export class RestAPI extends RESTDataSource {
   baseURL = "https://linkedin-cv-crawler.beta-limited.workers.dev/interview/";
@@ -50,7 +49,24 @@ export class RestAPI extends RESTDataSource {
           },
         }
       );
-      const result = await response.text();
+      await response.text();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async subtractFromCart(productId: string, sessionId: string): Promise<boolean> {
+    try {
+      const response = await fetch(
+        `${this.baseURL}subtract-from-cart?id=${productId}`,
+        {
+          headers: {
+            "Session-ID": sessionId,
+          },
+        }
+      );
+      await response.text();
       return true;
     } catch (e) {
       return false;
