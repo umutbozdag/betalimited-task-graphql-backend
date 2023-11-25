@@ -4,23 +4,12 @@ const resolvers: Resolvers = {
   Query: {
     products: async (_, __, { dataSources }) =>
       await dataSources.restAPI.getProducts(),
-    search: async (_, { query }, { dataSources, request }) => {
-      const sessionId = request?.headers["session-id"] || null;
-
-      if (!sessionId) {
-        throw new Error("Session ID not provided");
-      }
-      console.log("query", query);
-      return await dataSources.restAPI.searchProduct(query, sessionId);
+    search: async (_, { query }, { dataSources }) => {
+      return await dataSources.restAPI.searchProduct(query);
     },
-    cartItems: async (_, __, { dataSources, request }) => {
-      const sessionId = request?.headers["session-id"] || null;
-
-      if (!sessionId) {
-        throw new Error("Session ID not provided");
-      }
-
-      return await dataSources.restAPI.getCartItems(sessionId);
+    cartItems: async (_, __, { dataSources }) => {
+      const cartItemsData = await dataSources.restAPI.getCartItems();
+      return cartItemsData;
     },
     session: async (_, __, { dataSources }) => {
       const { sessionId } = await dataSources.restAPI.createSession();
@@ -31,34 +20,18 @@ const resolvers: Resolvers = {
     addToCart: async (
       _,
       { productId }: Pick<CartItem, "productId">,
-      { dataSources, request }
+      { dataSources }
     ) => {
-      const sessionId = request?.headers["session-id"] || null;
-
-      if (!sessionId) {
-        throw new Error("Session ID not provided");
-      }
-      const addToCartResponse = await dataSources.restAPI.addToCart(
-        productId,
-        sessionId
-      );
-
+      const addToCartResponse = await dataSources.restAPI.addToCart(productId);
       return addToCartResponse;
     },
     subtractFromCart: async (
       _,
       { productId }: Pick<CartItem, "productId">,
-      { dataSources, request }
+      { dataSources }
     ) => {
-      const sessionId = request?.headers["session-id"] || null;
-
-      if (!sessionId) {
-        throw new Error("Session ID not provided");
-      }
-      const subtractFromCartResponse = await dataSources.restAPI.addToCart(
-        productId,
-        sessionId
-      );
+      const subtractFromCartResponse =
+        await dataSources.restAPI.subtractFromCart(productId);
 
       return subtractFromCartResponse;
     },

@@ -4,5 +4,4 @@ export type DataSourceContext = {
   dataSources: {
     restAPI: RestAPI;
   };
-  request?: any;
 };

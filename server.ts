@@ -6,7 +6,7 @@ import { RestAPI } from "./src/datasources/api";
 
 async function startApolloServer() {
   // @ts-ignore-next-line
-  const port = Number.parseInt(process.env.PORT) || 4000;
+  const port = Number(process.env.PORT) || 4000;
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -17,11 +17,11 @@ async function startApolloServer() {
     },
     context: async ({ req }) => {
       const { cache } = server;
+      const sessionId: any = req.headers["session-id"] || null;
       return {
         dataSources: {
-          restAPI: new RestAPI(),
+          restAPI: new RestAPI({ cache, sessionId }),
         },
-        request: req,
       };
     },
   });
